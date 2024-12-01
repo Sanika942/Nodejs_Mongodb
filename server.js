@@ -1,9 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+require("dotenv").config;
 
+const DB_URI =
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/nature-test";
 mongoose
-  .connect("mongodb://127.0.0.1:27017/nature-test", {
+  .connect(DB_URI, {
     useNewUrlParser: true,
   })
   .then(() => {
@@ -22,7 +25,7 @@ app.get("/", (req, res) => {
   res.json({ message: "server is running" });
 });
 require("./routes/app.routes.js")(app);
-let PORT = 8081;
+const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {
-  console.log(`server is listening on port ${PORT}`);
+  console.log(`Server is listening on port ${PORT}`);
 });
